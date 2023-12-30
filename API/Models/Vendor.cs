@@ -4,9 +4,7 @@ namespace API.Models
 {
     public class Vendor : BaseEntity
     {
-        public string Name { get; set; } = default!;
-
-        public string ProjectName { get; set; } = default!;
+        public string CompanyName { get; set; } = default!;
 
         public string Email { get; set; } = default!;
 
@@ -18,8 +16,10 @@ namespace API.Models
 
         public string CompanyType { get; set; } = default!;
 
-        public StatusApprovalEnum AdminApprovalStatus { get; set; } 
-
-        public StatusApprovalEnum ManagerApprovalStatus { get; set; } 
+        public StatusApprovalEnum AdminApprovalStatus { get; set; } = StatusApprovalEnum.Pending;
+        public StatusApprovalEnum ManagerApprovalStatus { get; set; } = StatusApprovalEnum.Pending;
+        public bool IsInRegistrationProcess { get; set; } = true;
+        public bool IsRegistrationApproved => AdminApprovalStatus == StatusApprovalEnum.Approved && ManagerApprovalStatus == StatusApprovalEnum.Approved;
+        public bool IsSubmitTender => IsRegistrationApproved && !IsInRegistrationProcess;
     }
 }
