@@ -4,6 +4,6 @@ namespace API.Contracts
 {
     public interface IVendorRepository : IBaseRepository<Vendor>
     {
-        Vendor? GetVendorByGuid(Guid guid);
+        Vendor? GetVendorByEmail(string email);
     }
 };

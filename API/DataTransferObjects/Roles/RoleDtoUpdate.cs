@@ -1,6 +1,6 @@
 using API.Models;
 
-namespace API.DataTransferObjects
+namespace API.DataTransferObjects.Roles
 {
     public class RoleDtoUpdate
     {
@@ -8,12 +8,12 @@ namespace API.DataTransferObjects
         public string Name { get; set; } = default!;
 
         // implicit operator
-        public static implicit operator Role(RoleDtoUpdate roleDtoUpdate)
+        public static implicit operator Role(RoleDtoUpdate dto)
         {
             return new Role
             {
-                Guid = roleDtoUpdate.Guid,
-                Name = roleDtoUpdate.Name,
+                Guid = dto.Guid,
+                Name = dto.Name,
                 ModifiedDate = DateTime.UtcNow
             };
         }

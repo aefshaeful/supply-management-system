@@ -8,9 +8,9 @@ namespace API.Repositories
     {
         public VendorRepository(SupplyManegementDbContext context) : base(context){}
 
-        public Vendor? GetVendorByGuid(Guid guid)
+        public Vendor? GetVendorByEmail(string email)
         {
-             return Context.Set<Vendor>().FirstOrDefault(v => v.Guid == guid);
+             return Context.Set<Vendor>().FirstOrDefault(v => v.Email == email);
         }
     }
 };

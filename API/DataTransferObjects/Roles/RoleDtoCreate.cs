@@ -1,17 +1,17 @@
 using API.Models;
 
-namespace API.DataTransferObjects
+namespace API.DataTransferObjects.Roles
 {
     public class RoleDtoCreate
     {
         public string Name { get; set; } = default!;
 
         // implicit operator
-        public static implicit operator Role(RoleDtoCreate roleDtoCreate)
+        public static implicit operator Role(RoleDtoCreate dto)
         {
             return new Role
             {
-                Name = roleDtoCreate.Name,
+                Name = dto.Name,
                 CreatedDate = DateTime.UtcNow
             };
         }

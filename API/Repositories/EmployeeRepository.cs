@@ -8,9 +8,9 @@ namespace API.Repositories
     {
         public EmployeeRepository(SupplyManegementDbContext context) : base(context){}
 
-        public Employee? GetEmployeeByGuid(Guid guid)
+        public Employee? GetEmployeeByEmail(string email)
         {
-             return Context.Set<Employee>().FirstOrDefault(e => e.Guid == guid);
+             return Context.Set<Employee>().FirstOrDefault(e => e.Email == email);
         }
     }
 };

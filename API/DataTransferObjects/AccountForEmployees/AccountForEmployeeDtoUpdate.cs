@@ -2,7 +2,7 @@ using API.Models;
 using API.Utilities.Handlers;
 using System.Security.Principal;
 
-namespace API.DataTransferObjects
+namespace API.DataTransferObjects.AccountForEmployees
 {
     public class AccountForEmployeeDtoUpdate
     {
@@ -10,16 +10,17 @@ namespace API.DataTransferObjects
         public string Password { get; set; } = default!;
 
         // implicit operator
-        public static implicit operator AccountForEmployee(AccountForEmployeeDtoUpdate accountDtoUpdate)
+        public static implicit operator AccountForEmployee(AccountForEmployeeDtoUpdate dto)
         {
             return new()
             {
-                Guid = accountDtoUpdate.Guid,
-                Password = HashingHandler.HashPassword(accountDtoUpdate.Password),
+                Guid = dto.Guid,
+                Password = HashingHandler.HashPassword(dto.Password),
                 ModifiedDate = DateTime.UtcNow
             };
         }
 
+        // explicit operator
         public static explicit operator AccountForEmployeeDtoUpdate(AccountForEmployee account)
         {
             return new()

@@ -1,6 +1,6 @@
 using API.Models;
 
-namespace API.DataTransferObjects
+namespace API.DataTransferObjects.AccountRoles
 {
     public class AccountRoleDtoCreate
     {
@@ -8,12 +8,12 @@ namespace API.DataTransferObjects
         public Guid RoleGuid { get; set; }
 
         // implicit operator
-        public static implicit operator AccountRole(AccountRoleDtoCreate accountRoleDtoCreate)
+        public static implicit operator AccountRole(AccountRoleDtoCreate dto)
         {
             return new AccountRole
             {
-                AccountGuid = accountRoleDtoCreate.AccountGuid,
-                RoleGuid = accountRoleDtoCreate.RoleGuid,
+                AccountGuid = dto.AccountGuid,
+                RoleGuid = dto.RoleGuid,
                 CreatedDate = DateTime.UtcNow
             };
         }
