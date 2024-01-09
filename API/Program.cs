@@ -3,6 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using API.Contracts;
+using API.Repositories;
+using TokenHandler = API.Utilities.Handlers.TokenHandler;
+using API.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,8 +19,19 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<SupplyManegementDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 // Add Repositories
+builder.Services.AddScoped<IVendorRepository, VendorRepository>();
+builder.Services.AddScoped<ITenderProjectRepository, TenderProjectRepository>();
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IAccountForEmployeeRepository, AccountForEmployeeRepository>();
+builder.Services.AddScoped<IAccountForVendorRepository, AccountForVendorRepository>();
+builder.Services.AddScoped<IAccountRoleRepository, AccountRoleRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<ITokenHandler, TokenHandler>();
 
 // Add Services
+builder.Services.AddScoped<RoleService>();
+builder.Services.AddScoped<AccountRoleService>();
+builder.Services.AddScoped<AccountForEmployeeService>();
 
 
 // Jwt Configuration
@@ -32,7 +47,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidAudience = builder.Configuration["JWTService:Audience"],
             IssuerSigningKey =
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTService:Key"])),
+                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTService:Key"])),
             ValidateLifetime = true,
             ClockSkew = TimeSpan.Zero
         };

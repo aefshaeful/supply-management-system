@@ -17,14 +17,14 @@ namespace API.Utilities.Handlers
 
         public string GenerateToken(IEnumerable<Claim> claims)
         {
-            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtService:Key"]));
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTService:Key"]));
             var credentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: _configuration["JwtService:Issuer"],
-                audience: _configuration["JwtService:Audience"],
+                issuer: _configuration["JWTService:Issuer"],
+                audience: _configuration["JWTService:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(Convert.ToInt32(_configuration["JwtService:ExpirationTimeInMinutes"])),
+                expires: DateTime.Now.AddMinutes(Convert.ToInt32(_configuration["JWTService:ExpirationTimeInMinutes"])),
                 signingCredentials: credentials
             );
 
