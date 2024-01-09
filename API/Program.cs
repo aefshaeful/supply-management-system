@@ -32,6 +32,7 @@ builder.Services.AddScoped<ITokenHandler, TokenHandler>();
 builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<AccountRoleService>();
 builder.Services.AddScoped<AccountForEmployeeService>();
+builder.Services.AddScoped<AccountForVendorService>();
 
 
 // Jwt Configuration
