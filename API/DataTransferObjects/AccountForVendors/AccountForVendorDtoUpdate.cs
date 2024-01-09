@@ -2,13 +2,13 @@ using API.Models;
 
 namespace API.DataTransferObjects.AccountForVendors
 {
-    public class AcoountForVendorDtoUpdate
+    public class AccountForVendorDtoUpdate
     {
         public Guid Guid { get; set; }
-        public string Password { get; set; } = default!;    
+        public string Password { get; set; } = default!;
 
         // implicit operator
-        public static implicit operator AccountForVendor(AcoountForVendorDtoUpdate dto)
+        public static implicit operator AccountForVendor(AccountForVendorDtoUpdate dto)
         {
             return new AccountForVendor
             {
@@ -19,9 +19,9 @@ namespace API.DataTransferObjects.AccountForVendors
         }
 
         // explicit operator
-        public static explicit operator AcoountForVendorDtoUpdate(AccountForVendor account)
+        public static explicit operator AccountForVendorDtoUpdate(AccountForVendor account)
         {
-            return new AcoountForVendorDtoUpdate
+            return new AccountForVendorDtoUpdate
             {
                 Guid = account.Guid,
                 Password = account.Password,
