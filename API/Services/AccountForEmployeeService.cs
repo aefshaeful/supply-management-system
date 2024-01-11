@@ -4,6 +4,7 @@ using API.Contracts;
 using API.Data;
 using API.DataTransferObjects.AccountForEmployees;
 using API.Models;
+using API.Utilities.Handlers;
 namespace API.Services
 {
     public class AccountForEmployeeService
@@ -150,14 +151,16 @@ namespace API.Services
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now
                 };
+                _employeeRepository.Create(employee);
 
                 var accountForEmployee = new AccountForEmployee
                 {
                     Guid = employee.Guid,
-                    Password = accountRegisterEmployeeDto.Password,
+                    Password = HashingHandler.HashPassword(accountRegisterEmployeeDto.Password),
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now
                 };
+                _accountForEmployeeRepository.Create(accountForEmployee);
 
                 var roleEmployee = _roleRepository.GetByName("Admin");
 
@@ -170,7 +173,7 @@ namespace API.Services
                 transaction.Commit();
                 return true;
             }
-            catch 
+            catch
             {
                 transaction.Rollback();
                 return false;
