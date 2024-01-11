@@ -3,6 +3,7 @@ using API.Contracts;
 using API.Data;
 using API.DataTransferObjects.AccountForVendors;
 using API.Models;
+using API.Utilities.Handlers;
 
 namespace API.Services
 {
@@ -108,7 +109,7 @@ namespace API.Services
                 return "0";
             }
 
-            if (accountForVendor.Password != accountLoginVendorDto.Password)
+            if (!HashingHandler.ValidatePassword(accountForVendor.Password, accountLoginVendorDto.Password))
             {
                 return "-1";
             }
@@ -139,7 +140,7 @@ namespace API.Services
             {
                 var vendor = new Vendor
                 {
-                    Guid = Guid.NewGuid(),
+                    Guid = new Guid(),
                     CompanyName = accountRegisterVendorDto.CompanyName,
                     Email = accountRegisterVendorDto.Email,
                     PhoneNumber = accountRegisterVendorDto.PhoneNumber,
@@ -147,6 +148,16 @@ namespace API.Services
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
                 };
+                _vendorRepository.Create(vendor);
+
+                var accountForVendor = new AccountForVendor
+                {
+                    Guid = vendor.Guid,
+                    Password = HashingHandler.HashPassword(accountRegisterVendorDto.Password),
+                    CreatedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+                _accountForVendorRepository.Create(accountForVendor);
 
                 vendorTransaction.Commit();
                 return true;
