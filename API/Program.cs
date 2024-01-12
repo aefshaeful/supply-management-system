@@ -33,6 +33,7 @@ builder.Services.AddScoped<RoleService>();
 builder.Services.AddScoped<AccountRoleService>();
 builder.Services.AddScoped<AccountForEmployeeService>();
 builder.Services.AddScoped<AccountForVendorService>();
+builder.Services.AddScoped<VendorService>();
 
 
 // Jwt Configuration
