@@ -105,7 +105,7 @@ namespace API.Services
                 return "0";
             }
 
-            if (accountForEmployee.Password != accountLoginEmployeeDto.Password)
+            if (!HashingHandler.ValidatePassword(accountLoginEmployeeDto.Password, accountForEmployee!.Password))
             {
                 return "-1";
             }

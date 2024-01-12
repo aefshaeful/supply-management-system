@@ -109,7 +109,7 @@ namespace API.Services
                 return "0";
             }
 
-            if (!HashingHandler.ValidatePassword(accountForVendor.Password, accountLoginVendorDto.Password))
+            if (!HashingHandler.ValidatePassword(accountLoginVendorDto.Password, accountForVendor!.Password))
             {
                 return "-1";
             }
@@ -158,6 +158,7 @@ namespace API.Services
                     ModifiedDate = DateTime.Now,
                 };
                 _accountForVendorRepository.Create(accountForVendor);
+
 
                 vendorTransaction.Commit();
                 return true;
