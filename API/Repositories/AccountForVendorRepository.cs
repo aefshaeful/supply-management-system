@@ -6,6 +6,7 @@ namespace API.Repositories
 {
     public class AccountForVendorRepository : BaseRepository<AccountForVendor>, IAccountForVendorRepository
     {
-        public AccountForVendorRepository(SupplyManegementDbContext context) : base(context){}
+        public AccountForVendorRepository(SupplyManegementDbContext context) : base(context) { }
+
     }
 }

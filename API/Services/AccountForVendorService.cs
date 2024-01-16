@@ -119,6 +119,8 @@ namespace API.Services
                 var claims = new List<Claim>()
                 {
                     new Claim("Guid", vendor.Guid.ToString()),
+                    new Claim("CompanyName", vendor.CompanyName),
+                    new Claim("PhotoProduct", vendor.PhotoProduct),
                     new Claim("Email", accountLoginVendorDto.Email),
                 };
 
@@ -134,7 +136,7 @@ namespace API.Services
 
         public bool Register(AccountRegisterVendorDto accountRegisterVendorDto)
         {
-            using var vendorTransaction = _context.Database.BeginTransaction();
+            using var transaction = _context.Database.BeginTransaction();
 
             try
             {
@@ -160,12 +162,12 @@ namespace API.Services
                 _accountForVendorRepository.Create(accountForVendor);
 
 
-                vendorTransaction.Commit();
+                transaction.Commit();
                 return true;
             }
             catch
             {
-                vendorTransaction.Rollback();
+                transaction.Rollback();
                 return false;
             }
         }
