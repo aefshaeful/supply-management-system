@@ -1,3 +1,4 @@
+using API.Contracts;
 using API.DataTransferObjects.TenderProjects;
 using API.Repositories;
 
@@ -5,9 +6,9 @@ namespace API.Services
 {
     public class TenderProjectService
     {
-        private readonly TenderProjectRepository _tenderProjectRepository;
+        private readonly ITenderProjectRepository _tenderProjectRepository;
 
-        public TenderProjectService(TenderProjectRepository tenderProjectRepository)
+        public TenderProjectService(ITenderProjectRepository tenderProjectRepository)
         {
             _tenderProjectRepository = tenderProjectRepository;
         }
