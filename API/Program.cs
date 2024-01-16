@@ -34,6 +34,7 @@ builder.Services.AddScoped<AccountRoleService>();
 builder.Services.AddScoped<AccountForEmployeeService>();
 builder.Services.AddScoped<AccountForVendorService>();
 builder.Services.AddScoped<VendorService>();
+builder.Services.AddScoped<EmployeeService>();
 
 
 // Jwt Configuration
@@ -49,7 +50,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = true,
             ValidAudience = builder.Configuration["JWTService:Audience"],
             IssuerSigningKey =
-                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTService:Key"])),
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTService:Key"])),
             ValidateLifetime = true,
             ClockSkew = TimeSpan.Zero
         };
