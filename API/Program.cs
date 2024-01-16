@@ -35,6 +35,7 @@ builder.Services.AddScoped<AccountForEmployeeService>();
 builder.Services.AddScoped<AccountForVendorService>();
 builder.Services.AddScoped<VendorService>();
 builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<TenderProjectService>();
 
 
 // Jwt Configuration
