@@ -167,9 +167,9 @@ namespace API.Controllers
         [HttpPost("login")]
         public IActionResult Login(AccountLoginVendorDto accountLoginVendorDto)
         {
-            var employeeLogin = _accountForVendorService.Login(accountLoginVendorDto);
+            var vendorLogin = _accountForVendorService.Login(accountLoginVendorDto);
 
-            if (employeeLogin == "0")
+            if (vendorLogin == "0")
             {
                 return NotFound(new ResponseHandler<AccountForVendorDtoGet>
                 {
@@ -180,7 +180,7 @@ namespace API.Controllers
                 });
             }
 
-            if (employeeLogin == "-1")
+            if (vendorLogin == "-1")
             {
                 return BadRequest(new ResponseHandler<AccountForVendorDtoGet>
                 {
@@ -191,7 +191,7 @@ namespace API.Controllers
                 });
             }
 
-            if (employeeLogin == "-2")
+            if (vendorLogin == "-2")
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, new ResponseHandler<AccountForVendorDtoGet>
                 {
@@ -207,12 +207,12 @@ namespace API.Controllers
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),
                 Message = "Vendor successfully logged in",
-                Data = employeeLogin
+                Data = vendorLogin
             });
         }
 
-        [HttpPost("register")]
-        public IActionResult Register(AccountRegisterVendorDto accountRegisterVendorDto)
+        [HttpPost("registerForVendor")]
+        public IActionResult RegisterForVendor(AccountRegisterVendorDto accountRegisterVendorDto)
         {
             var isCreated = _accountForVendorService.Register(accountRegisterVendorDto);
             if (!isCreated)
@@ -229,11 +229,9 @@ namespace API.Controllers
             {
                 Code = StatusCodes.Status200OK,
                 Status = HttpStatusCode.OK.ToString(),
-                Message = "Register Success"
+                Message = "Register Success",
+                Data = accountRegisterVendorDto
             });
         }
-
-
-
     }
 }

@@ -24,7 +24,7 @@ namespace API.Repositories
             return entity;
         }
 
-        public TEntity Create(TEntity entity)
+        public TEntity? Create(TEntity entity)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace API.Repositories
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                return null!;
+                return null;
             }
         }
 

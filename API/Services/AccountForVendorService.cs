@@ -3,6 +3,7 @@ using API.Contracts;
 using API.Data;
 using API.DataTransferObjects.AccountForVendors;
 using API.Models;
+using API.Utilities.Enums;
 using API.Utilities.Handlers;
 
 namespace API.Services
@@ -147,6 +148,11 @@ namespace API.Services
                     Email = accountRegisterVendorDto.Email,
                     PhoneNumber = accountRegisterVendorDto.PhoneNumber,
                     PhotoProduct = accountRegisterVendorDto.PhotoProduct,
+                    BusinessField = "",
+                    CompanyType = "",
+                    AdminApprovalStatus = StatusApprovalEnum.Pending,
+                    ManagerApprovalStatus = StatusApprovalEnum.Pending,
+                    IsInRegistrationProcess = true,
                     CreatedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
                 };

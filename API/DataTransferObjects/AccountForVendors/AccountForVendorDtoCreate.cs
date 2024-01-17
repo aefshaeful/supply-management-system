@@ -7,12 +7,12 @@ namespace API.DataTransferObjects.AccountForVendors
     {
         public Guid Guid { get; set; }
         public string Password { get; set; } = default!;
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+        
 
         // implicit operator
         public static implicit operator AccountForVendor(AccountForVendorDtoCreate dto)
         {
-            return new AccountForVendorDtoCreate
+            return new AccountForVendor
             {
                 Guid = dto.Guid,
                 Password = HashingHandler.HashPassword(dto.Password),
