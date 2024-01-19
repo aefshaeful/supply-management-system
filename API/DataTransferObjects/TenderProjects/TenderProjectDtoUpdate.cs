@@ -8,6 +8,7 @@ namespace API.DataTransferObjects.TenderProjects
         public Guid Guid { get; set; }
         public string ProjectName { get; set; } = default!;
         public decimal Budget { get; set; }
+        public Guid VendorGuid { get; set; }
         public StatusApprovalEnum AdminApprovalStatus { get; set; }
         public StatusApprovalEnum ManagerApprovalStatus { get; set; }
 
@@ -20,6 +21,7 @@ namespace API.DataTransferObjects.TenderProjects
                 Guid = dto.Guid,
                 ProjectName = dto.ProjectName,
                 Budget = dto.Budget,
+                VendorGuid = dto.VendorGuid,
                 AdminApprovalStatus = dto.AdminApprovalStatus,
                 ManagerApprovalStatus = dto.ManagerApprovalStatus,
                 ModifiedDate = DateTime.UtcNow
@@ -35,6 +37,7 @@ namespace API.DataTransferObjects.TenderProjects
                 Guid = tenderProject.Guid,
                 ProjectName = tenderProject.ProjectName,
                 Budget = tenderProject.Budget,
+                VendorGuid = tenderProject.VendorGuid,
                 AdminApprovalStatus = tenderProject.AdminApprovalStatus,
                 ManagerApprovalStatus = tenderProject.ManagerApprovalStatus,
             };

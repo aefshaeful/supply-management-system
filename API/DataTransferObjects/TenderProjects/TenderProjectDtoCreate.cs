@@ -7,8 +7,9 @@ namespace API.DataTransferObjects.TenderProjects
     {
         public string ProjectName { get; set; } = default!;
         public decimal Budget { get; set; }
-        public StatusApprovalEnum AdminApprovalStatus { get; set; } 
-        public StatusApprovalEnum ManagerApprovalStatus { get; set; } 
+        public Guid VendorGuid { get; set; }
+        public StatusApprovalEnum AdminApprovalStatus { get; set; }
+        public StatusApprovalEnum ManagerApprovalStatus { get; set; }
 
         // implicit operator
         public static implicit operator TenderProject(TenderProjectDtoCreate dto)
@@ -17,6 +18,7 @@ namespace API.DataTransferObjects.TenderProjects
             {
                 ProjectName = dto.ProjectName,
                 Budget = dto.Budget,
+                VendorGuid = dto.VendorGuid,
                 AdminApprovalStatus = dto.AdminApprovalStatus,
                 ManagerApprovalStatus = dto.ManagerApprovalStatus,
                 CreatedDate = DateTime.UtcNow
@@ -30,6 +32,7 @@ namespace API.DataTransferObjects.TenderProjects
             {
                 ProjectName = tenderProject.ProjectName,
                 Budget = tenderProject.Budget,
+                VendorGuid = tenderProject.VendorGuid,
                 AdminApprovalStatus = tenderProject.AdminApprovalStatus,
                 ManagerApprovalStatus = tenderProject.ManagerApprovalStatus,
             };
