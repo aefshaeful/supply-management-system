@@ -1,15 +1,18 @@
 using API.Contracts;
 using API.DataTransferObjects.TenderProjects;
+using API.Models;
 
 namespace API.Services
 {
     public class VendorService
     {
         private readonly IVendorRepository _vendorRepository;
+        private readonly IAccountForVendorRepository _accountForVendorRepository;
 
-        public VendorService(IVendorRepository vendorRepository)
+        public VendorService(IVendorRepository vendorRepository, IAccountForVendorRepository accountForVendorRepository)
         {
             _vendorRepository = vendorRepository;
+            _accountForVendorRepository = accountForVendorRepository;
         }
 
         public IEnumerable<VendorDtoGet> Get()
@@ -43,9 +46,25 @@ namespace API.Services
 
         public VendorDtoCreate? Create(VendorDtoCreate vendorDtoCreate)
         {
-            var vendorCreated = _vendorRepository.Create(vendorDtoCreate);
+            Vendor vendor = vendorDtoCreate;
+            var vendorCreated = _vendorRepository.Create(vendor);
+
+            var randomPassword = "vendor123";
+
+            var account = new AccountForVendor
+            {
+                Guid = vendor.Guid,
+                Password = randomPassword,
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+            };
+
+            var accountForVendorCreated = _accountForVendorRepository.Create(account);
+            
+
             if (vendorCreated is null)
             {
+                _accountForVendorRepository.Delete(accountForVendorCreated);
                 return null!;
             }
 

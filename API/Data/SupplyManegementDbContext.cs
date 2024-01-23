@@ -28,20 +28,20 @@ namespace API.Data
         // Configuration Database Relationship
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
 
-           // Contstraints Unique
-           modelBuilder.Entity<Employee>().HasIndex(employee => new
+            // Contstraints Unique
+            modelBuilder.Entity<Employee>().HasIndex(employee => new
             {
-               employee.Email
+                employee.Email
             }).IsUnique();
 
 
             modelBuilder.Entity<Vendor>().HasIndex(vendor => new
-             {
-                 vendor.Email,
-                 vendor.PhoneNumber
-             }).IsUnique();
+            {
+                vendor.Email,
+                vendor.PhoneNumber
+            }).IsUnique();
 
 
             // Vendor - TenderProject (One to Many)
@@ -54,7 +54,8 @@ namespace API.Data
             modelBuilder.Entity<AccountForEmployee>()
                 .HasOne(accountForEmployee => accountForEmployee.Employee)
                 .WithOne(employee => employee.AccountForEmployee)
-                .HasForeignKey<AccountForEmployee>(accountForEmployee => accountForEmployee.Guid);
+                .HasForeignKey<AccountForEmployee>(accountForEmployee => accountForEmployee.Guid)
+                .OnDelete(DeleteBehavior.SetNull);
 
             // AccountForEmployee - AccountRole (One to Many)
             modelBuilder.Entity<AccountForEmployee>()
@@ -66,7 +67,8 @@ namespace API.Data
             modelBuilder.Entity<AccountForVendor>()
                 .HasOne(accountForVendor => accountForVendor.Vendor)
                 .WithOne(Vendor => Vendor.AccountForVendor)
-                .HasForeignKey<AccountForVendor>(accountForVendor => accountForVendor.Guid);
+                .HasForeignKey<AccountForVendor>(accountForVendor => accountForVendor.Guid)
+                .OnDelete(DeleteBehavior.SetNull);
 
             // Role - AccountRole (One to Many)
             modelBuilder.Entity<Role>()
