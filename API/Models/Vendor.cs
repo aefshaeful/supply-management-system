@@ -41,6 +41,7 @@ namespace API.Models
 
 
         // Cardinality
+        [ForeignKey("Guid")]
         public AccountForVendor? AccountForVendor { get; set; }
 
         public ICollection<TenderProject>? TenderProjects { get; set; }

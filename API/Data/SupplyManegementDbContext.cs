@@ -43,6 +43,13 @@ namespace API.Data
                 vendor.PhoneNumber
             }).IsUnique();
 
+            // AccountForVendor - Vendor (One to One)
+            modelBuilder.Entity<AccountForVendor>()
+                .HasOne(accountForVendor => accountForVendor.Vendor)
+                .WithOne(vendor => vendor.AccountForVendor)
+                .HasForeignKey<AccountForVendor>(accountForVendor => accountForVendor.Guid)
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired();
 
             // Vendor - TenderProject (One to Many)
             modelBuilder.Entity<Vendor>()
@@ -55,20 +62,14 @@ namespace API.Data
                 .HasOne(accountForEmployee => accountForEmployee.Employee)
                 .WithOne(employee => employee.AccountForEmployee)
                 .HasForeignKey<AccountForEmployee>(accountForEmployee => accountForEmployee.Guid)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired();
 
             // AccountForEmployee - AccountRole (One to Many)
             modelBuilder.Entity<AccountForEmployee>()
                 .HasMany(account => account.AccountRoles)
                 .WithOne(accountRole => accountRole.AccountForEmployee)
                 .HasForeignKey(accountRole => accountRole.AccountGuid);
-
-            // AccountForVendor - Vendor (One to One)
-            modelBuilder.Entity<AccountForVendor>()
-                .HasOne(accountForVendor => accountForVendor.Vendor)
-                .WithOne(Vendor => Vendor.AccountForVendor)
-                .HasForeignKey<AccountForVendor>(accountForVendor => accountForVendor.Guid)
-                .OnDelete(DeleteBehavior.SetNull);
 
             // Role - AccountRole (One to Many)
             modelBuilder.Entity<Role>()
