@@ -19,7 +19,7 @@ namespace API.DataTransferObjects.AccountForEmployees
             };
         }
 
-        
+
         // explicit operator
         public static explicit operator AccountForEmployeeDtoCreate(AccountForEmployee account)
         {

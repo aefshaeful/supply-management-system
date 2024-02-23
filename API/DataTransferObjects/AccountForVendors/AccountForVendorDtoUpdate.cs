@@ -1,4 +1,5 @@
 using API.Models;
+using API.Utilities.Handlers;
 
 namespace API.DataTransferObjects.AccountForVendors
 {
@@ -13,7 +14,7 @@ namespace API.DataTransferObjects.AccountForVendors
             return new AccountForVendor
             {
                 Guid = dto.Guid,
-                Password = dto.Password,
+                Password = HashingHandler.HashPassword(dto.Password),
                 ModifiedDate = DateTime.UtcNow
             };
         }

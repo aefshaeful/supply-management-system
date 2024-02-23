@@ -48,8 +48,7 @@ namespace API.Data
                 .HasOne(accountForVendor => accountForVendor.Vendor)
                 .WithOne(vendor => vendor.AccountForVendor)
                 .HasForeignKey<AccountForVendor>(accountForVendor => accountForVendor.Guid)
-                .OnDelete(DeleteBehavior.SetNull)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.Cascade);
 
             // Vendor - TenderProject (One to Many)
             modelBuilder.Entity<Vendor>()
@@ -62,8 +61,7 @@ namespace API.Data
                 .HasOne(accountForEmployee => accountForEmployee.Employee)
                 .WithOne(employee => employee.AccountForEmployee)
                 .HasForeignKey<AccountForEmployee>(accountForEmployee => accountForEmployee.Guid)
-                .OnDelete(DeleteBehavior.SetNull)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.Cascade); 
 
             // AccountForEmployee - AccountRole (One to Many)
             modelBuilder.Entity<AccountForEmployee>()

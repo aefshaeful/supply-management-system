@@ -9,7 +9,6 @@ namespace API.Models
         public string Password { get; set; } = default!;
 
         // Cardinality
-        [InverseProperty("AccountForEmployee")]
         public Employee? Employee { get; set; }
         public ICollection<AccountRole>? AccountRoles { get; set; }
 

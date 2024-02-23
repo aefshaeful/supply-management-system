@@ -16,7 +16,7 @@ namespace API.Models
         public string PhoneNumber { get; set; } = default!;
 
         [Column("photo_product", TypeName = "nvarchar(255)")]
-        public string PhotoProduct {  get; set; } = default!;
+        public string PhotoProduct { get; set; } = default!;
 
         [Column("business_field", TypeName = "nvarchar(100)")]
         public string BusinessField { get; set; } = default!;
@@ -41,7 +41,6 @@ namespace API.Models
 
 
         // Cardinality
-        [ForeignKey("Guid")]
         public AccountForVendor? AccountForVendor { get; set; }
 
         public ICollection<TenderProject>? TenderProjects { get; set; }

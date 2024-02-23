@@ -1,6 +1,7 @@
 using API.Contracts;
 using API.DataTransferObjects.TenderProjects;
 using API.Models;
+using API.Utilities.Handlers;
 
 namespace API.Services
 {
@@ -54,13 +55,13 @@ namespace API.Services
             var account = new AccountForVendor
             {
                 Guid = vendor.Guid,
-                Password = randomPassword,
+                Password = HashingHandler.HashPassword(randomPassword),
                 CreatedDate = DateTime.Now,
                 ModifiedDate = DateTime.Now,
             };
 
             var accountForVendorCreated = _accountForVendorRepository.Create(account);
-            
+
 
             if (vendorCreated is null)
             {

@@ -81,14 +81,29 @@ namespace API.Services
 
         public int Delete(Guid guid)
         {
-            var accountForEmployee = _accountForEmployeeRepository.GetByGuid(guid);
-            if (accountForEmployee is null)
+            using var transactions = _context.Database.BeginTransaction();
+            try
             {
-                return -1;
-            }
+                var employee = _employeeRepository.GetByGuid(guid);
+                if (employee is null)
+                {
+                    return -1;
+                }
 
-            var accountForEmployeeDeleted = _accountForEmployeeRepository.Delete(accountForEmployee);
-            return !accountForEmployeeDeleted ? 0 : 1;
+                var accountForEmployee = _accountForEmployeeRepository.GetByGuid(guid);
+                if (accountForEmployee is not null)
+                {
+                    _accountForEmployeeRepository.Delete(accountForEmployee);
+                }
+                _employeeRepository.Delete(employee);
+                transactions.Commit();
+                return 1;
+            }
+            catch
+            {
+                transactions.Rollback();
+                return 0;
+            }
         }
 
         public string Login(AccountLoginEmployeeDto accountLoginEmployeeDto)

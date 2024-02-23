@@ -16,7 +16,6 @@ namespace API.Models
 
 
         // Cardinality
-        [ForeignKey("Guid")]
         public AccountForEmployee? AccountForEmployee { get; set; }
 
     }

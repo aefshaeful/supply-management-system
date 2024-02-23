@@ -227,8 +227,8 @@ namespace API.Controllers
 
             return Ok(new ResponseHandler<AccountRegisterVendorDto>
             {
-                Code = StatusCodes.Status200OK,
-                Status = HttpStatusCode.OK.ToString(),
+                Code = StatusCodes.Status201Created,
+                Status = HttpStatusCode.Created.ToString(),
                 Message = "Register Success",
                 Data = accountRegisterVendorDto
             });

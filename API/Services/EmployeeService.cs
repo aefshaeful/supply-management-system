@@ -1,4 +1,5 @@
 ﻿using API.Contracts;
+using API.Data;
 using API.DataTransferObjects.Employees;
 using API.Models;
 using API.Repositories;
@@ -8,13 +9,15 @@ namespace API.Services
 {
     public class EmployeeService
     {
+        private readonly SupplyManegementDbContext _context;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IAccountForEmployeeRepository _accountForEmployeeRepository;
         private readonly IAccountRoleRepository _accountRoleRepository;
         private readonly IRoleRepository _roleRepository;
 
-        public EmployeeService(IEmployeeRepository employeeRepository, IAccountForEmployeeRepository accountForEmployeeRepository, IAccountRoleRepository accountRoleRepository, IRoleRepository roleRepository)
+        public EmployeeService(SupplyManegementDbContext context, IEmployeeRepository employeeRepository, IAccountForEmployeeRepository accountForEmployeeRepository, IAccountRoleRepository accountRoleRepository, IRoleRepository roleRepository)
         {
+            _context = context;
             _employeeRepository = employeeRepository;
             _accountForEmployeeRepository = accountForEmployeeRepository;
             _accountRoleRepository = accountRoleRepository;
@@ -45,10 +48,36 @@ namespace API.Services
 
         public EmployeeDtoCreate? Create(EmployeeDtoCreate employeeDtoCreate)
         {
-            var employeeCreated = _employeeRepository.Create(employeeDtoCreate);
-            if (employeeCreated is null) return null!;
+            Employee employee = employeeDtoCreate;
+            var employeeCreated = _employeeRepository.Create(employee);
+
+            var randomPassword = "employee123";
+
+            var account = new AccountForEmployee
+            {
+                Guid = employee.Guid,
+                Password = HashingHandler.HashPassword(randomPassword),
+                CreatedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+            };
+
+            var accountForEmployeeCreated = _accountForEmployeeRepository.Create(account);
+            var roleEmployee = _roleRepository.GetByName("Admin");
+            var accountRoleCreated = _accountRoleRepository.Create(new AccountRole
+            {
+                AccountGuid = account.Guid,
+                RoleGuid = roleEmployee.Guid
+            });
+            if (employeeCreated is null)
+            {
+                _accountForEmployeeRepository.Delete(accountForEmployeeCreated);
+                _accountRoleRepository.Delete(accountRoleCreated);
+                return null!;
+            }
+
             return (EmployeeDtoCreate)employeeCreated;
         }
+
 
         public int Update(EmployeeDtoUpdate employeeDtoUpdate)
         {
@@ -61,15 +90,28 @@ namespace API.Services
 
         public int Delete(Guid guid)
         {
-            var employee = _employeeRepository.GetByGuid(guid);
-
-            if (employee is null)
+            using (var transactions = _context.Database.BeginTransaction())
             {
-                return -1;
-            }
+                try
+                {
+                    var employee = _employeeRepository.GetByGuid(guid);
+                    if (employee is null) return -1;
 
-            var employeeDeleted = _employeeRepository.Delete(employee);
-            return !employeeDeleted ? 0 : 1;
+                    var accountForEmployee = _accountForEmployeeRepository.GetByGuid(guid);
+                    if (accountForEmployee is not null)
+                    {
+                        _accountForEmployeeRepository.Delete(accountForEmployee);
+                    }
+                    _employeeRepository.Delete(employee);
+                    transactions.Commit();
+                    return 1;
+                }
+                catch
+                {
+                    transactions.Rollback();
+                    return 0;
+                }
+            }
         }
     }
 }

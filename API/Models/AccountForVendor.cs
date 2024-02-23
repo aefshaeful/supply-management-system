@@ -9,7 +9,6 @@ namespace API.Models
         public string Password { get; set; } = default!;
 
         // Cardinality
-        [InverseProperty("AccountForVendor")]
         public Vendor? Vendor { get; set; }
     }
 }
